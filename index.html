@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Reto Plato Saludable 3º ESO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f4f7fb;
+      color: #222;
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2a9d8f, #264653);
+      color: #fff;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.7rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 1.5rem auto 2rem;
+      padding: 0 1rem;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    nav button {
+      border: none;
+      padding: 0.6rem 0.9rem;
+      border-radius: 999px;
+      background: #e9ecef;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    nav button:hover {
+      background: #ced4da;
+      transform: translateY(-1px);
+    }
+
+    nav button.active {
+      background: #2a9d8f;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .section {
+      display: none;
+      background: #fff;
+      border-radius: 0.75rem;
+      padding: 1.2rem 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      margin-bottom: 1.5rem;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .section h2 {
+      margin-bottom: 0.7rem;
+      font-size: 1.3rem;
+      color: #264653;
+    }
+
+    .section h3 {
+      margin-top: 1rem;
+      margin-bottom: 0.4rem;
+      font-size: 1.05rem;
+      color: #2a9d8f;
+    }
+
+    p {
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      margin-left: 1.2rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .card {
+      background: #f8fafc;
+      border-radius: 0.75rem;
+      padding: 0.8rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .card h4 {
+      margin-bottom: 0.3rem;
+      font-size: 1rem;
+      color: #1d3557;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.7rem;
+      border-radius: 999px;
+      background: #e9f5f2;
+      color: #2a9d8f;
+      margin-left: 0.3rem;
+    }
+
+    .highlight {
+      background: #fff9c4;
+      padding: 0.1rem 0.2rem;
+      border-radius: 0.2rem;
+    }
+
+    /* Plato de Harvard */
+
+    .plate-layout {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1.2fr 1fr;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 800px) {
+      .plate-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .plate {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 8px solid #ced4da;
+      background: conic-gradient(
+        #bde0fe 0 25%,
+        #b7e4c7 25% 65%,
+        #ffe5b4 65% 90%,
+        #f1faee 90% 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .plate-label {
+      position: absolute;
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 0.15rem 0.3rem;
+      border-radius: 0.35rem;
+      background: rgba(255,255,255,0.8);
+    }
+
+    .label-hc { top: 8%; left: 25%; }
+    .label-verduras { top: 45%; left: 15%; }
+    .label-prot { top: 35%; right: 10%; }
+    .label-agua { bottom: 8%; right: 28%; }
+
+    .drop-zones {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .drop-zone {
+      border: 2px dashed #adb5bd;
+      border-radius: 0.7rem;
+      padding: 0.4rem;
+      min-height: 70px;
+      font-size: 0.85rem;
+      background: #f8f9fa;
+    }
+
+    .drop-zone-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      font-size: 0.85rem;
+      color: #264653;
+    }
+
+    .food-list {
+      margin-top: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.4rem;
+    }
+
+    .food-item {
+      background: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 999px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+      cursor: grab;
+      text-align: center;
+      user-select: none;
+    }
+
+    .food-item.correct {
+      border-color: #2a9d8f;
+      background: #d8f3dc;
+    }
+
+    .food-item.incorrect {
+      border-color: #e63946;
+      background: #ffe5e5;
+    }
+
+    .drop-zone.over {
+      background: #e9f5f2;
+      border-color: #2a9d8f;
+    }
+
+    .plate-controls {
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .btn {
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      background: #2a9d8f;
+      color: #fff;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn.secondary {
+      background: #6c757d;
+    }
+
+    .btn:hover {
+      background: #21867b;
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary:hover {
+      background: #5c636a;
+    }
+
+    .feedback {
+      margin-top: 0.4rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .feedback.ok {
+      color: #2a9d8f;
+    }
+
+    .feedback.bad {
+      color: #e63946;
+    }
+
+    /* Nutrientes */
+
+    details {
+      margin-bottom: 0.4rem;
+      background: #f8f9fa;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+      padding: 0.4rem 0.6rem;
+    }
+
+    details summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1d3557;
+    }
+
+    details p {
+      margin-top: 0.3rem;
+      font-size: 0.9rem;
+    }
+
+    /* Quiz */
+
+    .quiz-question {
+      margin-bottom: 0.9rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background: #f8f9fa;
+      border: 1px solid #e5e7eb;
+    }
+
+    .quiz-question.correct {
+      border-color: #2a9d8f;
+      background: #d8f3dc;
+    }
+
+    .quiz-question.incorrect {
+      border-color: #e63946;
+      background: #ffe5e5;
+    }
+
+    .quiz-question p {
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .quiz-options label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.15rem;
+      cursor: pointer;
+    }
+
+    #quiz-result {
+      margin-top: 0.7rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .label-option {
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .label-option.correct-label {
+      border-color: #2a9d8f;
+      background: #d8f3dc;
+    }
+
+    .label-option.incorrect-label {
+      border-color: #e63946;
+      background: #ffe5e5;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6c757d;
+      padding: 1rem 0 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reto Plato Saludable 3º ESO</h1>
+    <p>Repasa alimentación, dieta saludable, Plato de Harvard y grupos de nutrientes.</p>
+  </header>
+
+  <div class="container">
+    <nav>
+      <button class="nav-btn active" data-target="inicio">Inicio</button>
+      <button class="nav-btn" data-target="conceptos">Conceptos clave</button>
+      <button class="nav-btn" data-target="plato">Plato de Harvard</button>
+      <button class="nav-btn" data-target="nutrientes">Grupos de nutrientes</button>
+      <button class="nav-btn" data-target="etiquetas">Ejercicios sobre etiquetas</button>
+      <button class="nav-btn" data-target="quiz">Retos y Quiz</button>
+    </nav>
+
+    <!-- INICIO -->
+    <section id="inicio" class="section active">
+      <h2>Bienvenido al reto 😋</h2>
+      <p>
+        Esta mini app está pensada para que, como estudiante de <strong>3º ESO</strong>,
+        repases de forma rápida:
+      </p>
+      <ul>
+        <li>Qué es una <span class="highlight">dieta saludable</span>.</li>
+        <li>Cómo se organiza el <span class="highlight">Plato de Harvard</span>.</li>
+        <li>Cuáles son los principales <span class="highlight">grupos de nutrientes</span>.</li>
+      </ul>
+      <p>
+        Piensa, por ejemplo, en tu descanso entre clases en el instituto de Murcia o Lorca:
+        ¿te tomas un <em>bocata de tortilla</em> con agua o un refresco azucarado y bollería?
+        Vamos a ver qué dice la ciencia 😉.
+      </p>
+      <p>
+        Usa los botones de arriba para navegar por las secciones. Cuando estés listo/a,
+        termina con el <strong>quiz</strong> y comprueba tu nivel.
+      </p>
+    </section>
+
+    <!-- CONCEPTOS CLAVE -->
+    <section id="conceptos" class="section">
+      <h2>Conceptos clave de alimentación y dieta</h2>
+      <p>
+        Antes de hablar del Plato de Harvard, recordemos algunas ideas básicas:
+      </p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h4>Alimentación</h4>
+          <p>
+            Es el <strong>conjunto de alimentos y bebidas</strong> que tomamos cada día.
+            Depende de nuestros gustos, cultura, familia, publicidad, economía…
+          </p>
+        </div>
+        <div class="card">
+          <h4>Dieta</h4>
+          <p>
+            Es el <strong>patrón habitual</strong> de alimentación: cómo comemos a lo largo
+            de muchas semanas (no solo un día suelto).
+          </p>
+        </div>
+        <div class="card">
+          <h4>Dieta saludable<span class="badge">equilibrio</span></h4>
+          <p>
+            Es aquella que aporta la <strong>energía</strong> y los
+            <strong>nutrientes</strong> necesarios, en la cantidad adecuada,
+            sin exceso de azúcares, grasas poco saludables ni sal.
+          </p>
+        </div>
+        <div class="card">
+          <h4>Calorías (kcal)</h4>
+          <p>
+            Son la <strong>energía</strong> que nos aportan los alimentos.
+            Si comemos muchas más de las que gastamos con la actividad física,
+            se acumulan como grasa corporal.
+          </p>
+        </div>
+        <div class="card">
+          <h4>Raciones</h4>
+          <p>
+            Cantidad orientativa de un alimento (por ejemplo:
+            1 pieza de fruta mediana, 1 vaso de leche, 1 puñado de frutos secos…).
+          </p>
+        </div>
+        <div class="card">
+          <h4>Actividad física</h4>
+          <p>
+            Moverse (caminar, bailar, hacer deporte, ir en bici…) ayuda a
+            <strong>gastar energía</strong> y a que el cuerpo utilice bien los nutrientes.
+          </p>
+        </div>
+      </div>
+
+      <h3>Resumen para tu día a día</h3>
+      <p>
+        Una dieta saludable en 3º ESO suele incluir:
+      </p>
+      <ul>
+        <li>Verduras en la comida y la cena casi siempre.</li>
+        <li>Fruta 2-3 veces al día.</li>
+        <li>Más agua que refrescos azucarados.</li>
+        <li>Pan, pasta, arroz mejor si son <strong>integrales</strong>.</li>
+        <li>Evitar abusar de bollería, snacks salados y comida rápida.</li>
+      </ul>
+    </section>
+
+    <!-- PLATO DE HARVARD -->
+    <section id="plato" class="section">
+      <h2>Plato de Harvard</h2>
+      <p>
+        El <strong>Plato de Harvard</strong> propone cómo debería ser, de manera aproximada,
+        la distribución de una comida saludable:
+      </p>
+      <ul>
+        <li><strong>½ del plato:</strong> verduras y frutas.</li>
+        <li><strong>¼ del plato:</strong> cereales integrales (arroz integral, pan integral…).</li>
+        <li><strong>¼ del plato:</strong> proteínas saludables (legumbres, pescado, huevos…).</li>
+        <li>Acompañar con <strong>agua</strong> y actividad física diaria.</li>
+      </ul>
+
+      <div class="plate-layout">
+        <div>
+          <div class="plate" aria-label="Plato de Harvard esquemático">
+            <div class="plate-label label-hc">Cereales integrales</div>
+            <div class="plate-label label-verduras">Verduras y frutas</div>
+            <div class="plate-label label-prot">Proteínas saludables</div>
+            <div class="plate-label label-agua">Agua</div>
+          </div>
+          <p style="margin-top:0.5rem; font-size:0.85rem;">
+            Es una guía visual: no hace falta llevar un plato medidor al instituto,
+            pero sí tener esta idea en mente cuando eliges tu menú.
+          </p>
+        </div>
+
+        <div>
+          <h3>Mini-juego: coloca los alimentos en el plato</h3>
+          <p style="font-size:0.9rem;">
+            Arrastra cada alimento al lugar que creas correcto del Plato de Harvard.
+          </p>
+
+          <div class="drop-zones">
+            <div class="drop-zone" data-category="verduras">
+              <div class="drop-zone-title">Verduras y frutas</div>
+            </div>
+            <div class="drop-zone" data-category="cereales">
+              <div class="drop-zone-title">Cereales integrales</div>
+            </div>
+            <div class="drop-zone" data-category="proteinas">
+              <div class="drop-zone-title">Proteínas saludables</div>
+            </div>
+            <div class="drop-zone" data-category="agua">
+              <div class="drop-zone-title">Bebida recomendada</div>
+            </div>
+          </div>
+
+          <h3 style="margin-top:0.8rem; font-size:1rem;">Alimentos</h3>
+          <div id="food-container" class="food-list">
+            <div class="food-item" draggable="true" data-category="verduras">Ensalada de lechuga y tomate</div>
+            <div class="food-item" draggable="true" data-category="verduras">Manzana</div>
+            <div class="food-item" draggable="true" data-category="cereales">Pan integral</div>
+            <div class="food-item" draggable="true" data-category="cereales">Arroz integral</div>
+            <div class="food-item" draggable="true" data-category="proteinas">Lentejas guisadas</div>
+            <div class="food-item" draggable="true" data-category="proteinas">Pechuga de pollo a la plancha</div>
+            <div class="food-item" draggable="true" data-category="agua">Vaso de agua</div>
+            <div class="food-item" draggable="true" data-category="proteinas">Huevo duro</div>
+          </div>
+
+          <div class="plate-controls">
+            <button class="btn" id="check-plate">Comprobar</button>
+            <button class="btn secondary" id="reset-plate">Reiniciar</button>
+          </div>
+          <div id="plate-feedback" class="feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUTRIENTES -->
+    <section id="nutrientes" class="section">
+      <h2>Grupos de nutrientes</h2>
+      <p>
+        Los <strong>nutrientes</strong> son las sustancias de los alimentos que nuestro cuerpo
+        necesita para funcionar. Cada grupo tiene una función principal:
+      </p>
+
+      <details open>
+        <summary>Hidratos de carbono (glúcidos)</summary>
+        <p>
+          Son la <strong>principal fuente de energía inmediata</strong>.
+          Se encuentran en pan, pasta, arroz, patata, fruta… Mejor si son
+          <strong>integrales</strong> (aportan más fibra y sacian más).
+        </p>
+      </details>
+
+      <details>
+        <summary>Proteínas</summary>
+        <p>
+          Sirven para <strong>formar y reparar tejidos</strong> (músculos, piel, defensas…).
+          Ejemplos: carne, pescado, huevo, legumbres, frutos secos.
+        </p>
+      </details>
+
+      <details>
+        <summary>Grasas (lípidos)</summary>
+        <p>
+          Aportan mucha <strong>energía</strong> y forman parte de las membranas celulares.
+          Son más saludables las grasas <strong>insaturadas</strong> (aceite de oliva,
+          frutos secos, pescado azul) que las <strong>grasas trans</strong> y saturadas
+          (bollería industrial, fritos…).
+        </p>
+      </details>
+
+      <details>
+        <summary>Vitaminas y minerales</summary>
+        <p>
+          No dan energía pero son esenciales para el <strong>funcionamiento correcto</strong>
+          del organismo (sistema nervioso, defensas, huesos…). Se encuentran sobre todo en
+          frutas, verduras, frutos secos y lácteos.
+        </p>
+      </details>
+
+      <details>
+        <summary>Agua</summary>
+        <p>
+          Es fundamental para casi todas las reacciones químicas del cuerpo,
+          el transporte de sustancias y la regulación de la temperatura.
+          Un adolescente suele necesitar alrededor de <strong>1,5–2 litros al día</strong>,
+          dependiendo de la actividad física.
+        </p>
+      </details>
+
+      <details>
+        <summary>Fibra</summary>
+        <p>
+          No se digiere, pero ayuda a que el <strong>intestino funcione bien</strong>
+          y a controlar el hambre. Se encuentra en frutas, verduras, legumbres
+          y cereales integrales.
+        </p>
+      </details>
+
+      <h3>Actividad rápida</h3>
+      <p>
+        Piensa en tu merienda habitual. ¿A qué grupo pertenece cada parte?
+        ¿Cambiarías algo para que se parezca más al Plato de Harvard?
+      </p>
+    </section>
+    <!-- ETIQUETAS -->
+    <section id="etiquetas" class="section">
+      <h2>Ejercicios sobre etiquetas de alimentos</h2>
+      <p>
+        En estos ejercicios practicarás a leer etiquetas reales: el orden de los ingredientes,
+        cómo se nombran los aditivos, las distintas formas de azúcar y qué relación tiene una
+        ración con los valores diarios recomendados.
+      </p>
+
+      <form id="labels-exercises-form">
+        <div class="quiz-question label-ex" data-ex="e1">
+          <p>1. Orden de ingredientes</p>
+          <p style="font-size:0.88rem;">
+            Etiqueta 1: <em>Ingredientes: azúcar, harina de trigo, aceite de palma,
+            cacao en polvo (5%), sal.</em>
+          </p>
+          <p style="font-size:0.88rem;">
+            ¿Cuál de estos ingredientes está presente en <strong>mayor cantidad</strong>?
+          </p>
+          <div class="quiz-options">
+            <label><input type="radio" name="e1" value="a"> Azúcar.</label>
+            <label><input type="radio" name="e1" value="b"> Cacao en polvo.</label>
+            <label><input type="radio" name="e1" value="c"> Aceite de palma.</label>
+            <label><input type="radio" name="e1" value="d"> Sal.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question label-ex" data-ex="e2">
+          <p>2. Identificación de aditivos</p>
+          <p style="font-size:0.88rem;">
+            Etiqueta 2: <em>Ingredientes: agua, zumo de naranja (30%), azúcar,
+            acidulante (ácido cítrico), conservador (E-202), colorante (E-110).</em>
+          </p>
+          <p style="font-size:0.88rem;">
+            ¿Cuál de los siguientes corresponde a un <strong>conservador</strong>?
+          </p>
+          <div class="quiz-options">
+            <label><input type="radio" name="e2" value="a"> Agua.</label>
+            <label><input type="radio" name="e2" value="b"> Zumo de naranja.</label>
+            <label><input type="radio" name="e2" value="c"> E-202.</label>
+            <label><input type="radio" name="e2" value="d"> Azúcar.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question label-ex" data-ex="e3">
+          <p>3. Formas de azúcar</p>
+          <p style="font-size:0.88rem;">
+            Etiqueta 3: <em>Ingredientes: copos de avena, jarabe de glucosa-fructosa,
+            cacao en polvo, miel, sal.</em>
+          </p>
+          <p style="font-size:0.88rem;">
+            ¿Cuál de las siguientes afirmaciones es correcta sobre los <strong>azúcares libres</strong>
+            de esta etiqueta?
+          </p>
+          <div class="quiz-options">
+            <label><input type="radio" name="e3" value="a"> Solo el jarabe de glucosa-fructosa es azúcar.</label>
+            <label><input type="radio" name="e3" value="b"> Solo la miel es azúcar.</label>
+            <label><input type="radio" name="e3" value="c"> Ninguno de los ingredientes es azúcar.</label>
+            <label><input type="radio" name="e3" value="d"> El jarabe de glucosa-fructosa y la miel son formas de azúcar.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question label-ex" data-ex="e4">
+          <p>4. Comparación con valores diarios recomendados</p>
+          <p style="font-size:0.88rem;">
+            Etiqueta 4: <em>Azúcares: 17 g por ración (30 g).</em><br>
+            La OMS recomienda no superar unos <strong>25 g</strong> de azúcares libres al día
+            para un adolescente.
+          </p>
+          <p style="font-size:0.88rem;">
+            Aproximadamente, ¿qué porcentaje del máximo diario suponen esos 17 g?
+          </p>
+          <div class="quiz-options">
+            <label><input type="radio" name="e4" value="a"> 25 %.</label>
+            <label><input type="radio" name="e4" value="b"> 68 %.</label>
+            <label><input type="radio" name="e4" value="c"> 50 %.</label>
+            <label><input type="radio" name="e4" value="d"> 90 %.</label>
+          </div>
+        </div>
+
+        <button type="button" class="btn" id="check-label-exercises">Corregir ejercicios de etiquetas</button>
+      </form>
+      <div id="labels-exercises-result" class="feedback"></div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="quiz" class="section">
+      <h2>Retos y Quiz</h2>
+      <p>
+        Responde a las preguntas. Al final verás tu puntuación y un mensaje
+        según tu resultado.
+      </p>
+
+      <form id="quiz-form">
+        <div class="quiz-question" data-question="q1">
+          <p>1. ¿Qué afirmación define mejor una dieta saludable?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q1" value="a"> Comer mucha proteína y nada de hidratos de carbono.</label>
+            <label><input type="radio" name="q1" value="b"> Aportar todos los nutrientes y energía necesarios, sin excesos, de forma variada.</label>
+            <label><input type="radio" name="q1" value="c"> Comer lo que me apetece mientras no engorde.</label>
+            <label><input type="radio" name="q1" value="d"> Saltarse el desayuno para ahorrar calorías.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q2">
+          <p>2. En el Plato de Harvard, aproximadamente, ¿qué parte del plato deberían ocupar verduras y frutas?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q2" value="a"> ¼ del plato.</label>
+            <label><input type="radio" name="q2" value="b"> ½ del plato.</label>
+            <label><input type="radio" name="q2" value="c"> Todo el plato.</label>
+            <label><input type="radio" name="q2" value="d"> Solo un trocito pequeño.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q3">
+          <p>3. ¿Cuál de estos alimentos es un cereal integral?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q3" value="a"> Pan de molde blanco.</label>
+            <label><input type="radio" name="q3" value="b"> Refresco de cola.</label>
+            <label><input type="radio" name="q3" value="c"> Pan integral de barra.</label>
+            <label><input type="radio" name="q3" value="d"> Patatas fritas de bolsa.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q4">
+          <p>4. ¿Qué grupo de nutrientes es la principal fuente de energía inmediata?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q4" value="a"> Vitaminas.</label>
+            <label><input type="radio" name="q4" value="b"> Proteínas.</label>
+            <label><input type="radio" name="q4" value="c"> Hidratos de carbono.</label>
+            <label><input type="radio" name="q4" value="d"> Agua.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q5">
+          <p>5. Una función principal de las proteínas es:</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q5" value="a"> Almacenar información genética.</label>
+            <label><input type="radio" name="q5" value="b"> Formar y reparar tejidos del cuerpo.</label>
+            <label><input type="radio" name="q5" value="c"> Aportar fibra para el intestino.</label>
+            <label><input type="radio" name="q5" value="d"> Aportar solo vitaminas.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q6">
+          <p>6. ¿Cuál es la bebida recomendada para acompañar la mayoría de comidas?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q6" value="a"> Refrescos azucarados.</label>
+            <label><input type="radio" name="q6" value="b"> Bebidas energéticas.</label>
+            <label><input type="radio" name="q6" value="c"> Agua.</label>
+            <label><input type="radio" name="q6" value="d"> Batidos de chocolate.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q7">
+          <p>7. ¿Cuál de estas opciones es un ejemplo de proteína saludable?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q7" value="a"> Bollería industrial.</label>
+            <label><input type="radio" name="q7" value="b"> Lentejas estofadas.</label>
+            <label><input type="radio" name="q7" value="c"> Refresco de naranja.</label>
+            <label><input type="radio" name="q7" value="d"> Gominolas.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q8">
+          <p>8. ¿Para qué sirve principalmente la fibra?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q8" value="a"> Para dar sabor dulce a los alimentos.</label>
+            <label><input type="radio" name="q8" value="b"> Para que el intestino funcione bien y mantener la saciedad.</label>
+            <label><input type="radio" name="q8" value="c"> Para formar huesos.</label>
+            <label><input type="radio" name="q8" value="d"> Para transportar oxígeno en la sangre.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q9">
+          <p>9. ¿Qué combinación se parece más al Plato de Harvard para una comida?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q9" value="a"> Pizza grande, refresco y helado.</label>
+            <label><input type="radio" name="q9" value="b"> Hamburguesa, patatas fritas y batido.</label>
+            <label><input type="radio" name="q9" value="c">
+              Ensalada grande, arroz integral con pollo y vaso de agua.
+            </label>
+            <label><input type="radio" name="q9" value="d"> Solo un bocadillo de chorizo.</label>
+          </div>
+        </div>
+
+        <div class="quiz-question" data-question="q10">
+          <p>10. En tu día a día en el instituto, ¿qué sería una mejora realista según el Plato de Harvard?</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q10" value="a"> Cambiar siempre la comida por patatas fritas.</label>
+            <label><input type="radio" name="q10" value="b"> Añadir verdura o fruta a la mayoría de comidas y beber más agua.</label>
+            <label><input type="radio" name="q10" value="c"> Saltarse la cena para “compensar”.</label>
+            <label><input type="radio" name="q10" value="d"> Desayunar solo un refresco.</label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Corregir quiz</button>
+        <button type="button" class="btn secondary" id="reset-quiz" style="margin-left:0.4rem;">Reiniciar quiz</button>
+      </form>
+
+      <div id="quiz-result"></div>
+
+      <h3 style="margin-top:1.2rem;">Reto: detectives de etiquetas</h3>
+      <p>
+        Imagina que estás en el recreo y quieres comprar algo en la máquina de vending.
+        Observa estas <strong>tres etiquetas simplificadas</strong> y elige la opción más adecuada
+        para un almuerzo saludable, fijándote sobre todo en azúcares y grasas saturadas.
+      </p>
+
+      <div id="labels-challenge" class="card-grid">
+        <label class="card label-option">
+          <h4>Snack A: galletas rellenas</h4>
+          <p><strong>Energía:</strong> 520 kcal / 100 g</p>
+          <p><strong>Azúcares:</strong> 32 g / 100 g</p>
+          <p><strong>Grasas totales:</strong> 26 g / 100 g (de las cuales saturadas 12 g)</p>
+          <div style="margin-top:0.4rem; font-size:0.85rem;"><input type="radio" name="labelChoice" value="A"> Elegir A</div>
+        </label>
+
+        <label class="card label-option">
+          <h4>Snack B: yogur natural con fruta</h4>
+          <p><strong>Energía:</strong> 90 kcal / 100 g</p>
+          <p><strong>Azúcares:</strong> 9 g / 100 g</p>
+          <p><strong>Grasas totales:</strong> 3 g / 100 g (de las cuales saturadas 1,5 g)</p>
+          <div style="margin-top:0.4rem; font-size:0.85rem;"><input type="radio" name="labelChoice" value="B"> Elegir B</div>
+        </label>
+
+        <label class="card label-option">
+          <h4>Snack C: refresco azucarado</h4>
+          <p><strong>Energía:</strong> 42 kcal / 100 ml</p>
+          <p><strong>Azúcares:</strong> 10,6 g / 100 ml</p>
+          <p><strong>Grasas totales:</strong> 0 g / 100 ml (de las cuales saturadas 0 g)</p>
+          <div style="margin-top:0.4rem; font-size:0.85rem;"><input type="radio" name="labelChoice" value="C"> Elegir C</div>
+        </label>
+      </div>
+
+      <button type="button" class="btn" id="check-labels" style="margin-top:0.5rem;">Comprobar reto etiquetas</button>
+      <div id="labels-feedback" class="feedback"></div>
+    </section>
+  </div>
+
+  <footer>
+    App educativa de repaso para 3º ESO · Alimentación y dieta saludable
+  </footer>
+
+  <script>
+    // Navegación entre secciones
+    const navButtons = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section');
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+
+        navButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        sections.forEach(sec => {
+          if (sec.id === target) {
+            sec.classList.add('active');
+          } else {
+            sec.classList.remove('active');
+          }
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    // Drag & Drop del Plato de Harvard
+    const foodContainer = document.getElementById('food-container');
+    let foodItems = document.querySelectorAll('.food-item');
+    const dropZones = document.querySelectorAll('.drop-zone');
+    const checkPlateBtn = document.getElementById('check-plate');
+    const resetPlateBtn = document.getElementById('reset-plate');
+    const plateFeedback = document.getElementById('plate-feedback');
+
+    let draggedItem = null;
+
+    function addFoodEvents(item) {
+      item.addEventListener('dragstart', () => {
+        draggedItem = item;
+        setTimeout(() => {
+          item.style.opacity = '0.3';
+        }, 0);
+      });
+
+      item.addEventListener('dragend', () => {
+        if (draggedItem) {
+          draggedItem.style.opacity = '1';
+        }
+        draggedItem = null;
+      });
+    }
+
+    foodItems.forEach(addFoodEvents);
+
+    dropZones.forEach(zone => {
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.classList.add('over');
+      });
+
+      zone.addEventListener('dragleave', () => {
+        zone.classList.remove('over');
+      });
+
+      zone.addEventListener('drop', () => {
+        zone.classList.remove('over');
+        if (draggedItem) {
+          zone.appendChild(draggedItem);
+        }
+      });
+    });
+
+    // Comprobar colocación
+    checkPlateBtn.addEventListener('click', () => {
+      let correct = 0;
+      let total = 0;
+
+      // Reset clases
+      document.querySelectorAll('.food-item').forEach(item => {
+        item.classList.remove('correct', 'incorrect');
+      });
+
+      dropZones.forEach(zone => {
+        const expected = zone.dataset.category;
+        const items = zone.querySelectorAll('.food-item');
+        items.forEach(item => {
+          total++;
+          if (item.dataset.category === expected) {
+            item.classList.add('correct');
+            correct++;
+          } else {
+            item.classList.add('incorrect');
+          }
+        });
+      });
+
+      if (total === 0) {
+        plateFeedback.textContent = 'Arrastra primero los alimentos a las zonas del plato.';
+        plateFeedback.className = 'feedback bad';
+        return;
+      }
+
+      const porcentaje = Math.round((correct / total) * 100);
+      plateFeedback.className = 'feedback ' + (porcentaje >= 70 ? 'ok' : 'bad');
+      if (porcentaje >= 90) {
+        plateFeedback.textContent = `¡Excelente! Has colocado correctamente ${correct} de ${total} alimentos (${porcentaje}%).`;
+      } else if (porcentaje >= 70) {
+        plateFeedback.textContent = `Muy bien: ${correct}/${total} (${porcentaje}%). Revisa los que han quedado en rojo.`;
+      } else {
+        plateFeedback.textContent = `Has acertado ${correct} de ${total} (${porcentaje}%). Vuelve a pensar qué aporta cada alimento.`;
+      }
+    });
+
+    // Reiniciar plato
+    resetPlateBtn.addEventListener('click', () => {
+      plateFeedback.textContent = '';
+      plateFeedback.className = 'feedback';
+      // Devolver todos los alimentos al contenedor
+      document.querySelectorAll('.food-item').forEach(item => {
+        item.classList.remove('correct', 'incorrect');
+        foodContainer.appendChild(item);
+      });
+    });
+
+    // Quiz
+    const quizForm = document.getElementById('quiz-form');
+    const quizResult = document.getElementById('quiz-result');
+    const resetQuizBtn = document.getElementById('reset-quiz');
+
+    const correctAnswers = {
+      q1: 'b',
+      q2: 'b',
+      q3: 'c',
+      q4: 'c',
+      q5: 'b',
+      q6: 'c',
+      q7: 'b',
+      q8: 'b',
+      q9: 'c',
+      q10: 'b'
+    };
+
+    quizForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let score = 0;
+      let total = Object.keys(correctAnswers).length;
+      let answered = 0;
+
+      // Reset estilos previos
+      document.querySelectorAll('.quiz-question').forEach(q => {
+        q.classList.remove('correct', 'incorrect');
+      });
+
+      for (const qName in correctAnswers) {
+        const questionDiv = document.querySelector(`.quiz-question[data-question="${qName}"]`);
+        const selected = quizForm.querySelector(`input[name="${qName}"]:checked`);
+
+        if (selected) {
+          answered++;
+          if (selected.value === correctAnswers[qName]) {
+            score++;
+            questionDiv.classList.add('correct');
+          } else {
+            questionDiv.classList.add('incorrect');
+          }
+        } else {
+          questionDiv.classList.add('incorrect');
+        }
+      }
+
+      const percentage = Math.round((score / total) * 100);
+      let message = '';
+
+      if (answered < total) {
+        message += `Has respondido ${answered} de ${total} preguntas. `;
+      }
+
+      if (percentage >= 90) {
+        message += `¡Nivel pro! ${score}/${total} (${percentage}%). Tus decisiones de menú son dignas del Plato de Harvard.`;
+      } else if (percentage >= 70) {
+        message += `Muy bien: ${score}/${total} (${percentage}%). Solo te falta afinar algunos detalles.`;
+      } else if (percentage >= 50) {
+        message += `Vas en camino: ${score}/${total} (${percentage}%). Revisa los conceptos y vuelve a intentarlo.`;
+      } else {
+        message += `Toca repasar: ${score}/${total} (${percentage}%). Vuelve a leer las secciones y prueba de nuevo.`;
+      }
+
+      quizResult.textContent = message;
+    });
+
+    resetQuizBtn.addEventListener('click', () => {
+      quizForm.reset();
+      quizResult.textContent = '';
+      document.querySelectorAll('.quiz-question').forEach(q => {
+        q.classList.remove('correct', 'incorrect');
+      });
+    });
+
+    // Reto: análisis de etiquetas de alimentos
+    const checkLabelsBtn = document.getElementById('check-labels');
+    const labelsFeedback = document.getElementById('labels-feedback');
+    const labelOptions = document.querySelectorAll('.label-option');
+
+    if (checkLabelsBtn) {
+      checkLabelsBtn.addEventListener('click', () => {
+        // Limpiar estados previos
+        labelsFeedback.textContent = '';
+        labelsFeedback.className = 'feedback';
+        labelOptions.forEach(opt => opt.classList.remove('correct-label', 'incorrect-label'));
+
+        const selected = document.querySelector('input[name="labelChoice"]:checked');
+        if (!selected) {
+          labelsFeedback.textContent = 'Elige primero una de las tres opciones.';
+          labelsFeedback.className = 'feedback bad';
+          return;
+        }
+
+        const choice = selected.value;
+        const correct = 'B'; // Opción más recomendable
+
+        labelOptions.forEach(opt => {
+          const input = opt.querySelector('input[name="labelChoice"]');
+          if (!input) return;
+          const val = input.value;
+          if (val === correct) {
+            opt.classList.add('correct-label');
+          } else if (val === choice && choice !== correct) {
+            opt.classList.add('incorrect-label');
+          }
+        });
+
+        if (choice === correct) {
+          labelsFeedback.textContent = '¡Buen ojo nutricional! El Snack B aporta menos azúcares y grasas saturadas, y es más adecuado para un almuerzo habitual.';
+          labelsFeedback.className = 'feedback ok';
+        } else {
+          labelsFeedback.textContent = 'No es la mejor opción. Observa cuál tiene menos azúcares y grasas saturadas por cada 100 g/ml y vuelve a intentarlo.';
+          labelsFeedback.className = 'feedback bad';
+        }
+      });
+    }
+
+    // Ejercicios extra: análisis de información de etiquetas
+    const labelExercisesForm = document.getElementById('labels-exercises-form');
+    const checkLabelExercisesBtn = document.getElementById('check-label-exercises');
+    const labelExercisesResult = document.getElementById('labels-exercises-result');
+
+    const labelExerciseAnswers = labelExercisesForm ? {
+      e1: 'a',
+      e2: 'c',
+      e3: 'd',
+      e4: 'b'
+    } : null;
+
+    if (checkLabelExercisesBtn && labelExercisesForm && labelExerciseAnswers) {
+      checkLabelExercisesBtn.addEventListener('click', () => {
+        let score = 0;
+        let total = Object.keys(labelExerciseAnswers).length;
+        let answered = 0;
+
+        document.querySelectorAll('.label-ex').forEach(q => {
+          q.classList.remove('correct', 'incorrect');
+        });
+
+        for (const ex in labelExerciseAnswers) {
+          const questionDiv = document.querySelector(`.label-ex[data-ex="${ex}"]`);
+          const selected = labelExercisesForm.querySelector(`input[name="${ex}"]:checked`);
+
+          if (selected) {
+            answered++;
+            if (selected.value === labelExerciseAnswers[ex]) {
+              score++;
+              if (questionDiv) questionDiv.classList.add('correct');
+            } else {
+              if (questionDiv) questionDiv.classList.add('incorrect');
+            }
+          } else {
+            if (questionDiv) questionDiv.classList.add('incorrect');
+          }
+        }
+
+        const percentage = Math.round((score / total) * 100);
+        let message = '';
+
+        if (answered < total) {
+          message += `Has respondido ${answered} de ${total} ejercicios. `;
+        }
+
+        if (percentage >= 90) {
+          message += `¡Perfecto! Controlas muy bien cómo leer los ingredientes y los azúcares. (${score}/${total}, ${percentage}%).`;
+        } else if (percentage >= 70) {
+          message += `Bien, pero aún puedes afinar un poco más. (${score}/${total}, ${percentage}%).`;
+        } else {
+          message += `Toca practicar más la lectura de etiquetas. (${score}/${total}, ${percentage}%). Repasa las explicaciones de la sección.`;
+        }
+
+        if (labelExercisesResult) {
+          labelExercisesResult.textContent = message;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
